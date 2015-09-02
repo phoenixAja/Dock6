@@ -14,7 +14,7 @@ def get_data(fh):
     for line in fh:
         lines.append(line)
     for i in range(len(lines)-1):
-        if re.match("Molecule: AB-[0-9]+", lines[i]):
+        if re.match("Molecule: (AB-|SMSF)[0-9]+", lines[i]):
             mol_lst = re.split("[:,\n]", lines[i])
             mol_lst = [x for x in mol_lst if x != ""]
             if re.match("\s+Grid Score:\s+(-)?[0-9]+\.[0-9]+", lines[i+9]):
@@ -35,7 +35,7 @@ def get_data(fh):
         else:
             pass
 
-    print energy_dict
+    #print energy_dict
     fhn = open("highest_grid_scores.txt", "a")
     for i in energy_dict.keys():
         str_mol = i+"|"
