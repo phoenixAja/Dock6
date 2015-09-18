@@ -1,0 +1,10 @@
+# determine the number of molecules in your mol2
+obabel -imol2 decoys_final.mol2 -onul
+20818 molecules converted
+
+# split up the multimol2 decoys file into chunks of 5000
+obabel -imol2 decoys_final.mol2 -omol2 -O decoys_final_1.mol2 -f 1 -l 5000
+obabel -imol2 decoys_final.mol2 -omol2 -O decoys_final_2.mol2 -f 5001 -l 10000
+obabel -imol2 decoys_final.mol2 -omol2 -O decoys_final_3.mol2 -f 10001 -l 15000
+obabel -imol2 decoys_final.mol2 -omol2 -O decoys_final_4.mol2 -f 15001
+
