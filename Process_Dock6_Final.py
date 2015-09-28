@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #Author: Phoenix Logan
 #Usage: name file you want data parsed on as sys.argv[1] identifiers in quotes ex: "AB-|SMSF"
-#ex run python Process_Dock6_Final.py dock_xing.out "AB-|SMSF"    
+#ex run python Process_Dock6_Final.py dock_xing.out "AB-|SMSF" 2   
 
 import os, sys, re
 import pandas as pd
@@ -41,7 +41,7 @@ def get_data(fh, identifiers):
         
 def write_results(file_ID, energy_dict):
     """Write results of parsed data to file"""
-    fhn = open("Dock6_Scores.txt"+str(file_ID), "a")
+    fhn = open("Dock6_Scores_"+str(file_ID)+".txt", "a")
     for i in energy_dict.keys():
         str_mol = i+"|"
         for i in energy_dict[i]:
@@ -52,7 +52,7 @@ def write_results(file_ID, energy_dict):
 
 def main():
     energy_dict = get_data(sys.argv[1], sys.argv[2])
-    write_results(2, energy_dict)
+    write_results(sys.argv[3], energy_dict)
     
 if __name__ == '__main__':
     main()
