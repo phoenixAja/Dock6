@@ -1,20 +1,19 @@
+#!/usr/bin/python
 #Author: Phoenix Logan
-#Usage: name file you want data parsed on as sys.argv[1]
+#Usage: name file you want data parsed on as sys.argv[1] identifiers in quotes ex: "AB-|SMSF"
+#ex run python Process_Dock6_Final.py dock_xing.out "AB-|SMSF"    
 
 import os
 import sys
 import re
 import pandas as pd
 
-
-def get_data(fh):
-    lines = []
+def get_data(fh, identifiers):
     energy_dict = {}
     fh = open(fh,  "r")
-    for line in fh:
-        lines.append(line)
+    lines = [line for line in fh]
     for i in range(len(lines)-1):
-        if re.match("Molecule: (AB-|SMSF)[0-9]+", lines[i]):
+        if re.match("Molecule: ("+identifiers+")[0-9]+", lines[i]) and i < (len(lines) - 8):
             mol_lst = re.split("[:,\n]", lines[i])
             mol_lst = [x for x in mol_lst if x != ""]
             if re.match("\s+Grid Score:\s+(-)?[0-9]+\.[0-9]+", lines[i+9]):
@@ -34,9 +33,7 @@ def get_data(fh):
                 pass
         else:
             pass
-
-    #print energy_dict
-    fhn = open("highest_grid_scores.txt", "a")
+    fhn = open("Dock6_Scores.txt", "a")
     for i in energy_dict.keys():
         str_mol = i+"|"
         for i in energy_dict[i]:
@@ -46,7 +43,7 @@ def get_data(fh):
     fhn.close()
 
 def main():
-    get_data(sys.argv[1])
-
+    get_data(sys.argv[1], sys.argv[2])
+    
 if __name__ == '__main__':
     main()
